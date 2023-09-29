@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  uri: 'http://localhost:3000/',
+  uri: 'https://catalog-product-back.vercel.app/',
 };
