@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { ResponseData } from '../models/response-data.model';
 import { Product } from '../models/product.model';
 import { Pagination } from '../models/pagination.model';
+import { Filter } from '../models/filter.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,13 +16,11 @@ export class ProductService {
   constructor(private http: HttpClient) {}
 
   public getAllProducts(
-    pagination: Pagination
+    pagination: Pagination,
+    filter?: Filter
   ): Observable<ResponseData<Product[]>> {
-    const url = `${this.uri}api/product`;
-    const params = new HttpParams()
-      .set('pageSize', pagination.pageSize)
-      .set('page', pagination.page);
-    return this.http.get<ResponseData<Product[]>>(url, { params });
+    const url = `${this.uri}api/product/filter`;
+    return this.http.post<ResponseData<Product[]>>(url, { pagination, filter });
   }
 
   public getProduct(id: string): Observable<Product> {

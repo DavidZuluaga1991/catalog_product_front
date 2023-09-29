@@ -1,11 +1,10 @@
-// .list-product {
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   height: 100%;
-//   &__content {
-//     background-color: aqua;
-//     max-width: 700px;
-//     width: 100%;
-//   }
-// }
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
