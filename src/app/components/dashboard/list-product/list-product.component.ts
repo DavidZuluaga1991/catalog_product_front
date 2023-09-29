@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TypeAction } from '@dashboard/core/enums/type-actions.enum';
+import { TypeProduct } from '@dashboard/core/enums/type-products.enum';
+import { Filter } from '@dashboard/core/models/filter.model';
 import { Pagination } from '@dashboard/core/models/pagination.model';
 import { Product } from '@dashboard/core/models/product.model';
 import { ProductService } from '@dashboard/core/services/product.service';
@@ -14,11 +16,12 @@ import { Subject, debounceTime, distinctUntilChanged, takeUntil } from 'rxjs';
 })
 export class ListProductComponent implements OnInit, OnDestroy {
   public products: Product[] = [];
+  public typeProduct = [...Object.keys(TypeProduct)];
   public pagination: Pagination = { pageSize: 10, page: 1 };
 
   public filterForm: FormGroup = new FormGroup({
-    name: new FormControl(undefined),
-    type: new FormControl(undefined),
+    name: new FormControl(''),
+    type: new FormControl(''),
   });
 
   private destroySubscribe$ = new Subject();
@@ -37,7 +40,7 @@ export class ListProductComponent implements OnInit, OnDestroy {
         distinctUntilChanged()
       )
       .subscribe((value) => {
-        this.getListProducts(this.pagination.pageSize, this.pagination.page);
+        this.getListProducts(this.pagination.pageSize, 1);
       });
   }
 
@@ -47,8 +50,16 @@ export class ListProductComponent implements OnInit, OnDestroy {
   }
 
   getListProducts(pageSize: number, page: number): void {
+    const filter: Filter[] = [];
+
+    Object.keys(this.filterForm.value).forEach((key) => {
+      if (this.filterForm.get(key)?.value) {
+        filter.push({ key, value: this.filterForm.get(key)?.value });
+      }
+    });
+
     this.productService
-      .getAllProducts({ pageSize, page }, this.filterForm.value)
+      .getAllProducts({ pageSize, page }, filter)
       .pipe(takeUntil(this.destroySubscribe$))
       .subscribe((data) => {
         this.products = data.data;
@@ -64,10 +75,6 @@ export class ListProductComponent implements OnInit, OnDestroy {
 
   selectPage(page: number) {
     this.getListProducts(this.pagination.pageSize, page);
-  }
-
-  prueba() {
-    console.log(this.pagination);
   }
 
   executeAction(type: TypeAction, product: Product): void {

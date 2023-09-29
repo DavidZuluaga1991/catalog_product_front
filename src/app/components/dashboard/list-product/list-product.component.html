@@ -1,8 +1,8 @@
 <div class="bg-black h-[450px] flex justify-center">
   <div class="text-white mt-20 flex flex-col items-center">
-    <p class="text-4xl">Hola! Bienvenido a RocketProducts.</p>
+    <p class="text-4xl">Hello! Welcome to RocketProducts.</p>
     <p class="text-2xl">
-      Aquí encontrarás los mejores productos para agregar a tu catálogo.
+      Here you will find the best products to add to your catalog.
     </p>
   </div>
 </div>
@@ -11,31 +11,37 @@
     class="w-11/12 flex flex-col justify-center bg-white relative top-[-140px] rounded-lg p-8 shadow-2xl gap-6"
   >
     <div class="flex flex-col gap-4">
-      <p class="text-4xl font-semibold">Busqueda de productos</p>
+      <p class="text-4xl font-semibold">Product Search</p>
       <div class="bg-black rounded-2xl p-2">
-        <form class="flex gap-4">
+        <form class="flex gap-4" [formGroup]="filterForm">
           <label
             class="flex flex-col px-2 py-1 rounded-md w-80 gap-1 text-base bg-white"
           >
-            <span>Buscar Producto</span>
+            <span>Search Product</span>
             <input
               class="outline-none"
               type="text"
               placeholder="Escribe el nombre del producto"
+              formControlName="name"
             />
           </label>
-          <label class="flex flex-col px-2 py-1 w-80 rounded-md text-base bg-white" for="">
-            <span>Filtrar por:</span>
-            <select class="outline-none"
-            name="Roles"
-            id="roles"
+          <label
+            class="flex flex-col px-2 py-1 w-80 rounded-md text-base bg-white"
+            for="type"
+          >
+            <span>Type of product</span>
+            <select
+              class="outline-none"
+              name="type"
+              id="type"
+              formControlName="type"
             >
-                <option value="Tripulante">Precio: Mayor a Menor</option>
-                <option value="Programador">Precio: Menor a Mayor</option>
-                <option value="QA">Recomendados</option>
-                <option value="QA">Más Recientes</option>
+              <option value="">None</option>
+              <option [value]="type" *ngFor="let type of typeProduct">
+                {{ type | titlecase }}
+              </option>
             </select>
-        </label>
+          </label>
         </form>
       </div>
     </div>
@@ -67,12 +73,16 @@
         </svg>
       </button>
       <div class="flex gap-3">
-        <button *ngFor="let item of [].constructor(pagination.totalPages); let i = index"
-        (click)="selectPage(i+1)"
-        class="bg-black w-12 h-12 rounded-md text-white flex items-center justify-center text-lg"
-      >
-        {{i+1}}
-      </button>
+        <button
+          *ngFor="
+            let item of [].constructor(pagination.totalPages);
+            let i = index
+          "
+          (click)="selectPage(i + 1)"
+          class="bg-black w-12 h-12 rounded-md text-white flex items-center justify-center text-lg"
+        >
+          {{ i + 1 }}
+        </button>
       </div>
       <button>
         <svg
@@ -92,7 +102,6 @@
           />
         </svg>
       </button>
-      <div (click)="prueba()">asdiasdioasdiasdioajdioasdi</div>
     </div>
   </div>
 </div>

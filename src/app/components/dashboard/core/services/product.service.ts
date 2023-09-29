@@ -17,7 +17,7 @@ export class ProductService {
 
   public getAllProducts(
     pagination: Pagination,
-    filter?: Filter
+    filter?: Filter[]
   ): Observable<ResponseData<Product[]>> {
     const url = `${this.uri}api/product/filter`;
     return this.http.post<ResponseData<Product[]>>(url, { pagination, filter });
