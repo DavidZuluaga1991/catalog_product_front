@@ -1,0 +1,11 @@
+<section *ngIf="product" class="bg-gray-500 p-2 rounded-md">
+    <figure class="flex flex-col gap-4">
+        <img [src]="product.image" class="rounded-md" alt="Descripción de la imagen">
+        <div>
+            <p>{{product.name}}</p>
+            <p>{{product.price}}</p>
+            <p>{{product.stock}}</p>
+        </div>
+    </figure> 
+</section>
+

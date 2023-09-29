@@ -1,0 +1,19 @@
+::ng-deep .input {
+  .mat-mdc-form-field-bottom-align {
+    &::before {
+      display: none;
+    }
+  }
+  .mat-mdc-form-field-input-control.mat-mdc-form-field-input-control {
+    font-size: 12px;
+  }
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+}

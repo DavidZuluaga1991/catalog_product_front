@@ -1,0 +1,62 @@
+<div class="py-10 flex justify-center">
+    <form [formGroup]="productForm" class="shadow-[0_0_11px_0px_rgba(0,0,0,0.3)] p-10">
+        <figure class="flex justify-center">
+            <img class="max-w-[310px] max-h-[310px]" [src]="productForm.get('image')?.value || imageBase" alt="" srcset="">
+        </figure>
+        <div class="grid grid-cols-2 gap-5">
+            <mat-form-field>
+                <mat-label>Type products</mat-label>
+                <mat-select  formControlName="type">
+                  <mat-option *ngFor="let type of listTypeProducts" [value]="type">
+                    {{type}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            <h4 class="col-span-full mt-2"> <strong>Sku:</strong> {{productForm.get('sku')?.value}} </h4>
+            <mat-form-field class="input col-span-full">
+              <mat-label>Name</mat-label>
+              <input type="text" matInput  formControlName="name"
+                     placeholder="Tenis ...">
+              <mat-error *ngIf="productForm.get('name')?.hasError('required')">
+                Name is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="input col-span-full">
+              <mat-label>Image url</mat-label>
+              <input type="text" matInput
+                     placeholder="http://image..."  formControlName="image">
+              <mat-error *ngIf="productForm.get('image')?.hasError('required')">
+                The image is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="input">
+              <mat-label>Price</mat-label>
+              <input type="number" matInput
+                     placeholder="100000"  formControlName="price">
+              <mat-error *ngIf="productForm.get('price')?.hasError('required')">
+                The price is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="input">
+              <mat-label>Stock</mat-label>
+              <input type="number" matInput
+                     placeholder="100000"  formControlName="stock">
+              <mat-error *ngIf="productForm.get('stock')?.hasError('required')">
+                The stock is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="input col-span-full">
+              <mat-label>Description</mat-label>
+              <textarea name="" id="" matInput cols="30" rows="10" formControlName="description"></textarea>
+              <mat-error *ngIf="productForm.get('description')?.hasError('required')">
+                The description is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="flex justify-center h-10 mt-8 gap-5">
+            <button [disabled]="productForm.invalid" *ngIf="id" class="w-32 bg-red-700 rounded-lg text-white hover:bg-red-500 disabled:bg-slate-300 disabled:text-black disabled:font-medium" (click)="actions(typeAction.DELETE)">Delete</button>
+            <button [disabled]="productForm.invalid || !changeData" *ngIf="id" class="w-32 bg-blue-700 rounded-lg text-white hover:bg-blue-500 disabled:bg-slate-300 disabled:text-black disabled:font-medium" (click)="actions(typeAction.UPDATE)">Update</button>
+            <button [disabled]="productForm.invalid" *ngIf="!id" class="w-32 bg-green-700 rounded-lg text-white hover:bg-green-500 disabled:bg-slate-300 disabled:text-black disabled:font-medium" (click)="actions(typeAction.CREATE)">Create</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,17 @@
+
+<div class="bg-black h-96">
+      
+</div>
+<div class="bg-gray-700 flex justify-center">
+    <div class="w-11/12 flex justify-center bg-white">
+        <div class="list-product__content__filter">
+            aqui va el filtro
+        </div>
+        <div class="grid grid-cols-4 gap-4">
+            <app-product *ngFor="let product of products" class="col-span-1" [product]="product" (action)="executeAction($event, product)"></app-product>
+        </div>
+        <div class="list-product__content__pagination">
+            Aqui va la paginación
+        </div>
+    </div>
+</div>
