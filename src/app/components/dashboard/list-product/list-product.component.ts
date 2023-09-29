@@ -12,7 +12,7 @@ import { ProductService } from '@dashboard/core/services/product.service';
 })
 export class ListProductComponent implements OnInit {
   public products: Product[] = [];
-  public pagination: Pagination = { pageSize: 10, page: 2 };
+  public pagination: Pagination = { pageSize: 10, page: 1 };
 
   constructor(
     private productService: ProductService,
@@ -28,6 +28,20 @@ export class ListProductComponent implements OnInit {
       this.products = data.data;
       this.pagination = data.pagination;
     });
+  }
+
+  increaseOrDecreasePagination(page: number) {
+    const tempPage = this.pagination.page + page;
+    if (tempPage >= 1 && tempPage <= (this.pagination.totalPages ?? 1))
+      this.getListProducts(this.pagination.pageSize, tempPage);
+  }
+
+  selectPage(page: number) {
+    this.getListProducts(this.pagination.pageSize, page);
+  }
+
+  prueba() {
+    console.log(this.pagination);
   }
 
   executeAction(type: TypeAction, product: Product): void {

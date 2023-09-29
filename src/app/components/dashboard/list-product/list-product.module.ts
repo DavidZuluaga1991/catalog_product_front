@@ -7,6 +7,9 @@ import { ProductModule } from '@dashboard/shared/product/product.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ProductService } from '@dashboard/core/services/product.service';
 import { RouterModule } from '@angular/router';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [ListProductComponent],
@@ -16,6 +19,9 @@ import { RouterModule } from '@angular/router';
     ProductModule,
     HttpClientModule,
     RouterModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule
   ],
   providers: [ProductService],
 })
