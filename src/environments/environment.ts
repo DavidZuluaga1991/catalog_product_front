@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  uri: 'http://localhost:3000/',
+  api: 'https://catalog-product-back-k0toqoap6-davidzuluaga1991.vercel.app/',
 };
