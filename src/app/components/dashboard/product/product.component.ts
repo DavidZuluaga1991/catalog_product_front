@@ -5,6 +5,7 @@ import { TypeAction } from '@dashboard/core/enums/type-actions.enum';
 import { TypeProduct } from '@dashboard/core/enums/type-products.enum';
 import { Product } from '@dashboard/core/models/product.model';
 import { ProductService } from '@dashboard/core/services/product.service';
+import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -33,7 +34,8 @@ export class ProductComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly router: Router,
-    private productService: ProductService
+    private productService: ProductService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -52,12 +54,18 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.productService
       .getProduct(this.id)
       .pipe(takeUntil(this.destroySubscribe$))
-      .subscribe((product: Product) => {
-        Object.keys(product).forEach((key) => {
-          const value = product[key as keyof typeof product];
-          this.productForm.get(key)?.setValue(value);
-        });
-        this.changeData = false;
+      .subscribe({
+        next: (product: Product) => {
+          Object.keys(product).forEach((key) => {
+            const value = product[key as keyof typeof product];
+            this.productForm.get(key)?.setValue(value);
+          });
+          this.changeData = false;
+          this.toastr.success('Product loaded correctly');
+        },
+        error: (err) => {
+          this.toastr.error('The product could not be loaded correctly');
+        },
       });
   }
 
@@ -85,8 +93,14 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.productService
       .deleteProduct(this.id)
       .pipe(takeUntil(this.destroySubscribe$))
-      .subscribe((product) => {
-        this.router.navigate(['dashboard/list']);
+      .subscribe({
+        next: (product) => {
+          this.toastr.success('Product successfully removed');
+          this.router.navigate(['dashboard/list']);
+        },
+        error: (error) => {
+          this.toastr.error('Could not delete product');
+        },
       });
   }
 
@@ -94,8 +108,14 @@ export class ProductComponent implements OnInit, OnDestroy {
     this.productService
       .updateProduct(this.id, this.productForm.value)
       .pipe(takeUntil(this.destroySubscribe$))
-      .subscribe((product) => {
-        this.router.navigate(['dashboard/list']);
+      .subscribe({
+        next: (product) => {
+          this.toastr.success('Correctly modified product');
+          this.router.navigate(['dashboard/list']);
+        },
+        error: (error) => {
+          this.toastr.error('Could not modify the product correctly');
+        },
       });
   }
 

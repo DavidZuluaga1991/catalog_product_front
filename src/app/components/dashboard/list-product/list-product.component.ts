@@ -61,9 +61,14 @@ export class ListProductComponent implements OnInit, OnDestroy {
     this.productService
       .getAllProducts({ pageSize, page }, filter)
       .pipe(takeUntil(this.destroySubscribe$))
-      .subscribe((data) => {
-        this.products = data.data;
-        this.pagination = data.pagination;
+      .subscribe({
+        next: (data) => {
+          this.products = data.data;
+          this.pagination = data.pagination;
+        },
+        error: (err) => {
+          console.log(err);
+        },
       });
   }
 
